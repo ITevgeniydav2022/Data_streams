@@ -4,6 +4,7 @@ package me.davydovep.recipesapp_5.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import me.davydovep.recipesapp_5.model.Recipe;
 import me.davydovep.recipesapp_5.service.RecipeService;
 import me.davydovep.recipesapp_5.service.ValidateService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Tag(name = "RecipeController", description = "API для рецептов")
 @RestController
 @RequestMapping("/recipe")
 public class RecipeController {
@@ -34,7 +36,7 @@ public class RecipeController {
             description = "Некорректные параметры рецепта")
     })
     public ResponseEntity<Recipe> add(@RequestBody Recipe recipe) {
-        if (validateService.isNotValid(recipe)) {
+        if (!validateService.isNotValid(recipe)) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(recipeService.add(recipe));
